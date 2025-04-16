@@ -1,11 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.hiltCompiler)
     alias(libs.plugins.navsafeargs)
     id("kotlin-parcelize")
-    id("com.google.gms.google-services")
 }
 
 android {
@@ -51,13 +48,6 @@ android {
 dependencies {
 
     implementation(libs.androidx.room.ktx)
-    implementation(libs.androidx.swiperefreshlayout)
-    ksp(libs.hilt.android.compiler)
-    implementation(libs.hilt.android)
-    implementation(libs.hilt.navigation)
-
-    implementation(libs.retrofit)
-    implementation(libs.converter.gson)
 
     implementation(libs.core)
     implementation(libs.conscrypt.android)
@@ -73,9 +63,6 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.recyclerview)
 
-    implementation(libs.okHttpClient)
-    implementation(libs.logging.interceptor)
-
     implementation(libs.circleimageview)
 
     implementation(libs.glide)
@@ -85,22 +72,10 @@ dependencies {
     implementation(libs.circelIndicator)
     implementation(libs.dotsindicator)
 
-    implementation(libs.androidyoutubeplayer.core)
-
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.messaging)
-    implementation(libs.play.services.auth)
-    implementation(libs.google.firebase.analytics)
-
     implementation (libs.multidex)
-
-    implementation(libs.material.calendarview)
-    implementation (libs.threetenabp)
 
     implementation(libs.androidx.paging.common.ktx)
     implementation(libs.androidx.paging.runtime.ktx)
-
-    implementation (libs.play.services.maps)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
