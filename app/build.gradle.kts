@@ -47,11 +47,7 @@ android {
 
 dependencies {
 
-    implementation(libs.androidx.room.ktx)
 
-    implementation(libs.core)
-    implementation(libs.conscrypt.android)
-    implementation(libs.bottomsheets)
 
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.navigation.fragment.ktx)
@@ -63,19 +59,7 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.recyclerview)
 
-    implementation(libs.circleimageview)
-
-    implementation(libs.glide)
-
-    implementation(libs.androidx.viewpager2)
-
-    implementation(libs.circelIndicator)
-    implementation(libs.dotsindicator)
-
     implementation (libs.multidex)
-
-    implementation(libs.androidx.paging.common.ktx)
-    implementation(libs.androidx.paging.runtime.ktx)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
