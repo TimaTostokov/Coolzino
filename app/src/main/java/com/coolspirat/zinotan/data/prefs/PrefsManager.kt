@@ -7,17 +7,19 @@ class PrefsManager(context: Context) {
 
     companion object {
         private const val PREFS_NAME = "MyGamePrefs"
-        private const val KEY_HIGHEST_LEVEL_COMPLETED = "HighestLevelCompleted"
     }
 
     private val prefs: SharedPreferences =
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
-    fun getHighestLevelCompleted(): Int {
-        return prefs.getInt(KEY_HIGHEST_LEVEL_COMPLETED, 0)
+    private fun key(gender: String?) =
+        "HighestLevelCompleted_${gender ?: "default"}"
+
+    fun getHighestLevelCompleted(gender: String?): Int =
+        prefs.getInt(key(gender), 0)
+
+    fun setHighestLevelCompleted(gender: String?, level: Int) {
+        prefs.edit().putInt(key(gender), level).apply()
     }
 
-    fun setHighestLevelCompleted(level: Int) {
-        prefs.edit().putInt(KEY_HIGHEST_LEVEL_COMPLETED, level).apply()
-    }
 }

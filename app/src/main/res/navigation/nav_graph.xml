@@ -77,8 +77,8 @@
         android:label="GameResultWinFragment" />
 
     <action
-        android:id="@+id/action_global_fourFragment"
-        app:destination="@id/fourFragment" />
+        android:id="@+id/action_global_threeFragment"
+        app:destination="@id/threeFragment" />
 
     <fragment
         android:id="@+id/webViewFragment"

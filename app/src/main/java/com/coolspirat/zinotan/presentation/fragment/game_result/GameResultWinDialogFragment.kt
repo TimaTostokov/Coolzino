@@ -32,7 +32,7 @@ class GameResultWinDialogFragment : DialogFragment() {
 
         binding.btnToMenu.setOnClickListener {
             dismiss()
-            findNavController().navigate(R.id.action_global_fourFragment)
+            findNavController().navigate(R.id.action_global_threeFragment)
         }
     }
 

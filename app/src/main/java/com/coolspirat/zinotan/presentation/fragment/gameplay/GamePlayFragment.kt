@@ -180,9 +180,10 @@ class GamePlayFragment : Fragment() {
         gameOverShown = true
         isGameRunning = false
 
-        val currentHighest = prefsManager.getHighestLevelCompleted()
+        val currentHighest =
+            prefsManager.getHighestLevelCompleted(pirateGender)
         if (levelNumber > currentHighest) {
-            prefsManager.setHighestLevelCompleted(levelNumber)
+            prefsManager.setHighestLevelCompleted(pirateGender, levelNumber)
         }
         GameResultWinDialogFragment.newInstance().show(parentFragmentManager, "winDialog")
     }

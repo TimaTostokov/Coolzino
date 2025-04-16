@@ -1,4 +1,3 @@
-// FourFragment.kt (фрагмент со списком уровней)
 package com.coolspirat.zinotan.presentation.fragment.four
 
 import android.os.Bundle
@@ -40,20 +39,21 @@ class FourFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding.rvLevels.layoutManager = GridLayoutManager(requireContext(), 3)
 
         pirateGender = arguments?.getString("pirateGender")
-
         prefsManager = PrefsManager(requireContext())
+
         setupLevels()
 
-        binding.btnBack.setOnClickListener {
-            findNavController().popBackStack()
-        }
+        binding.btnBack.setOnClickListener { findNavController().popBackStack() }
     }
 
     private fun setupLevels() {
-        val highestLevelCompleted = prefsManager.getHighestLevelCompleted()
+        val highestLevelCompleted =
+            prefsManager.getHighestLevelCompleted(pirateGender)
+
         val levelsList = (1..9).map { levelNumber ->
             Level(
                 levelNumber = levelNumber,
@@ -80,4 +80,5 @@ class FourFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 }
