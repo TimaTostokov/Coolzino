@@ -1,9 +1,11 @@
 package com.coolspirat.zinotan.presentation.fragment.splash
 
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import android.webkit.WebView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -21,8 +23,7 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
 
     private val binding by viewBinding(FragmentSplashBinding::bind)
 
-    private val configUrl =
-        "https://raw.githubusercontent.com/jetpack-samples/nowinandroid/main/README.md"
+    private val configUrl = "https://raw.githubusercontent.com/temircode/test-link/main/link.txt"
 
     private val prefs by lazy { LinkPrefs(requireContext()) }
 
@@ -43,7 +44,7 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
                         View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
         }
 
-        handler.postDelayed(fallbackRunnable, 1400)
+        handler.postDelayed(fallbackRunnable, 2000)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

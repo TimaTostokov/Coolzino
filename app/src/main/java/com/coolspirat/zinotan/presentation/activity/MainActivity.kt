@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 //            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 //        }
 
-        setContentView(R.layout.activity_main)
+        setContentView(binding.root)
     }
 
 }
