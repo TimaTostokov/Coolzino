@@ -53,6 +53,8 @@
         tools:layout="@layout/fragment_four">
         <action
             android:id="@+id/action_fourFragment_to_gamePlayFragment"
+            app:popUpTo="@id/fourFragment"
+            app:popUpToInclusive="true"
             app:destination="@id/gamePlayFragment" />
     </fragment>
     <fragment
@@ -64,24 +66,29 @@
             android:id="@+id/action_gamePlayFragment_to_gameResultWinFragment"
             app:destination="@id/gameResultWinFragment"
             app:enterAnim="@anim/popup_in"
+            app:popUpTo="@id/gamePlayFragment"
+            app:popUpToInclusive="true"
             app:exitAnim="@anim/popup_ot" />
-        <action
-            android:id="@+id/action_gamePlayFragment_to_gameResultLoseFragment"
-            app:destination="@id/gameResultLoseFragment"
-            app:enterAnim="@anim/popup_in"
-            app:exitAnim="@anim/popup_ot" />
+
     </fragment>
     <fragment
         android:id="@+id/gameResultWinFragment"
-        android:name="com.coolspirat.zinotan.presentation.fragment.game_result.GameResultWinFragment"
+        android:name="com.coolspirat.zinotan.presentation.fragment.game_result.GameResultWinDialogFragment"
         android:label="GameResultWinFragment" />
-    <fragment
-        android:id="@+id/gameResultLoseFragment"
-        android:name="com.coolspirat.zinotan.presentation.fragment.game_result.GameResultLoseFragment"
-        android:label="GameResultLoseFragment" />
+
     <action
         android:id="@+id/action_global_fourFragment"
         app:destination="@id/fourFragment" />
 
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="com.coolspirat.zinotan.presentation.fragment.webview.WebViewFragment"
+        android:label="WebViewFragment" />
+
+    <action
+        android:id="@+id/action_splash_to_webView"
+        app:destination="@id/webViewFragment"
+        app:popUpTo="@id/splashFragment"
+        app:popUpToInclusive="true" />
 
 </navigation>

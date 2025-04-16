@@ -17,9 +17,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
 
-        if (resources.configuration.smallestScreenWidthDp < 600) {
-            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        }
+//        if (resources.configuration.smallestScreenWidthDp < 600) {
+//            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+//        }
 
         setContentView(R.layout.activity_main)
     }

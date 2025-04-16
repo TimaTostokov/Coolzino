@@ -2,7 +2,11 @@ package com.coolspirat.zinotan.presentation.fragment.gameplay
 
 import android.animation.ValueAnimator
 import android.os.Bundle
-import android.view.*
+import android.os.Handler
+import android.os.Looper
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.animation.doOnEnd
 import androidx.fragment.app.Fragment
@@ -10,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.coolspirat.zinotan.R
 import com.coolspirat.zinotan.data.prefs.PrefsManager
 import com.coolspirat.zinotan.databinding.FragmentGamePlayBinding
+import com.coolspirat.zinotan.presentation.fragment.game_result.GameResultWinDialogFragment
 import kotlin.random.Random
 
 class GamePlayFragment : Fragment() {
@@ -27,6 +32,7 @@ class GamePlayFragment : Fragment() {
 
     private var _binding: FragmentGamePlayBinding? = null
     private val binding get() = _binding!!
+
     private var levelNumber: Int = 0
     private lateinit var prefsManager: PrefsManager
 
@@ -45,6 +51,8 @@ class GamePlayFragment : Fragment() {
     )
 
     private var pirateGender: String? = null
+
+    private val handler = Handler(Looper.getMainLooper())
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -78,7 +86,6 @@ class GamePlayFragment : Fragment() {
     }
 
     private fun startGame() {
-        gameOverShown = false
         if (isGameRunning) return
         isGameRunning = true
         binding.startPlay.visibility = View.GONE
@@ -95,27 +102,30 @@ class GamePlayFragment : Fragment() {
         val dropInterval = 1000L
         var droppedCount = 0
 
-        val dropTimer = object : Thread() {
+        handler.postDelayed(object : Runnable {
             override fun run() {
-                while (droppedCount < objectsToDrop && lives > 0) {
+                if (droppedCount < objectsToDrop && lives > 0) {
                     activity?.runOnUiThread {
                         dropOneObject(baseFallDuration)
                     }
                     droppedCount++
-                    Thread.sleep(dropInterval)
+                    handler.postDelayed(this, dropInterval)
                 }
             }
-        }
-        dropTimer.start()
+        }, dropInterval)
     }
 
     private fun dropOneObject(fallDuration: Int) {
+        if (!isGameRunning) return
+        val binding = _binding ?: return
+
         val fallingItem = ImageView(requireContext()).apply {
             setImageResource(fallingDrawables.random())
             adjustViewBounds = true
             elevation = 4 * resources.displayMetrics.density
             val sizePx = (50 * resources.displayMetrics.density).toInt()
             layoutParams = ViewGroup.LayoutParams(sizePx, sizePx)
+            tag = "falling"
         }
 
         val rootLayout = binding.rootLayout
@@ -135,7 +145,8 @@ class GamePlayFragment : Fragment() {
             binding.tvScore.text = score.toString()
         }
 
-        val animator = ValueAnimator.ofFloat(-sizePx.toFloat(), rootLayout.height + sizePx.toFloat())
+        val animator =
+            ValueAnimator.ofFloat(-sizePx.toFloat(), rootLayout.height + sizePx.toFloat())
         animator.duration = fallDuration.toLong()
         animator.addUpdateListener { valueAnimator ->
             fallingItem.translationY = valueAnimator.animatedValue as Float
@@ -173,13 +184,25 @@ class GamePlayFragment : Fragment() {
         if (levelNumber > currentHighest) {
             prefsManager.setHighestLevelCompleted(levelNumber)
         }
-        findNavController().navigate(R.id.action_gamePlayFragment_to_gameResultWinFragment)
+        GameResultWinDialogFragment.newInstance().show(parentFragmentManager, "winDialog")
     }
 
     private fun restartLevel() {
-        binding.rootLayout.removeAllViews()
-        binding.startPlay.visibility = View.VISIBLE
         isGameRunning = false
+
+        val binding = _binding ?: return
+        handler.removeCallbacksAndMessages(null)
+
+        val toRemove = mutableListOf<View>()
+        for (i in 0 until binding.rootLayout.childCount) {
+            val child = binding.rootLayout.getChildAt(i)
+            if (child.tag == "falling") {
+                toRemove.add(child)
+            }
+        }
+        toRemove.forEach { binding.rootLayout.removeView(it) }
+
+        binding.startPlay.visibility = View.VISIBLE
         lives = 3
         score = 0
         binding.tvHealth.text = lives.toString()
@@ -189,5 +212,7 @@ class GamePlayFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        handler.removeCallbacksAndMessages(null)
     }
+
 }
