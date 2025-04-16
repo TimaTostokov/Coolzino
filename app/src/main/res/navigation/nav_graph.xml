@@ -9,13 +9,13 @@
         android:id="@+id/splashFragment"
         android:name="com.coolspirat.zinotan.presentation.fragment.splash.SplashFragment"
         android:label="fragment_splash"
-        tools:layout="@layout/fragment_splash" >
+        tools:layout="@layout/fragment_splash">
 
         <action
             android:id="@+id/action_splashFragment_to_firstFragment"
+            app:destination="@id/firstFragment"
             app:popUpTo="@id/splashFragment"
-            app:popUpToInclusive="true"
-            app:destination="@id/firstFragment" />
+            app:popUpToInclusive="true" />
 
     </fragment>
 
@@ -23,6 +23,65 @@
         android:id="@+id/firstFragment"
         android:name="com.coolspirat.zinotan.presentation.fragment.first.FirstFragment"
         android:label="fragment_first"
-        tools:layout="@layout/fragment_first" />
+        tools:layout="@layout/fragment_first">
+        <action
+            android:id="@+id/action_firstFragment_to_twoFragment"
+            app:destination="@id/twoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/twoFragment"
+        android:name="com.coolspirat.zinotan.presentation.fragment.two.TwoFragment"
+        android:label="fragment_two"
+        tools:layout="@layout/fragment_two">
+        <action
+            android:id="@+id/action_twoFragment_to_threeFragment"
+            app:destination="@id/threeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/threeFragment"
+        android:name="com.coolspirat.zinotan.presentation.fragment.three.ThreeFragment"
+        android:label="fragment_three"
+        tools:layout="@layout/fragment_three">
+        <action
+            android:id="@+id/action_threeFragment_to_fourFragment"
+            app:destination="@id/fourFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fourFragment"
+        android:name="com.coolspirat.zinotan.presentation.fragment.four.FourFragment"
+        android:label="fragment_four"
+        tools:layout="@layout/fragment_four">
+        <action
+            android:id="@+id/action_fourFragment_to_gamePlayFragment"
+            app:destination="@id/gamePlayFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/gamePlayFragment"
+        android:name="com.coolspirat.zinotan.presentation.fragment.gameplay.GamePlayFragment"
+        android:label="GamePlayFragment"
+        tools:layout="@layout/fragment_game_play">
+        <action
+            android:id="@+id/action_gamePlayFragment_to_gameResultWinFragment"
+            app:destination="@id/gameResultWinFragment"
+            app:enterAnim="@anim/popup_in"
+            app:exitAnim="@anim/popup_ot" />
+        <action
+            android:id="@+id/action_gamePlayFragment_to_gameResultLoseFragment"
+            app:destination="@id/gameResultLoseFragment"
+            app:enterAnim="@anim/popup_in"
+            app:exitAnim="@anim/popup_ot" />
+    </fragment>
+    <fragment
+        android:id="@+id/gameResultWinFragment"
+        android:name="com.coolspirat.zinotan.presentation.fragment.game_result.GameResultWinFragment"
+        android:label="GameResultWinFragment" />
+    <fragment
+        android:id="@+id/gameResultLoseFragment"
+        android:name="com.coolspirat.zinotan.presentation.fragment.game_result.GameResultLoseFragment"
+        android:label="GameResultLoseFragment" />
+    <action
+        android:id="@+id/action_global_fourFragment"
+        app:destination="@id/fourFragment" />
+
 
 </navigation>

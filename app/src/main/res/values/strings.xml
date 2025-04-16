@@ -3,5 +3,8 @@
     <string name="app_name">Coolzino</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="second_screen_txt">You are going on voyages to collect treasure choose a ship and start your journey!</string>
+    <string name="todo">TODO</string>
+    <string name="txt_2">Don\'t forget to pick a \n captain for your team!</string>
 
 </resources>
