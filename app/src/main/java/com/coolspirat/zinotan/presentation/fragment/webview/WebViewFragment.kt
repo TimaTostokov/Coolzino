@@ -1,5 +1,6 @@
 package com.coolspirat.zinotan.presentation.fragment.webview
 
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.webkit.CookieManager
@@ -8,6 +9,7 @@ import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.coolspirat.zinotan.R
 import com.coolspirat.zinotan.data.prefs.LinkPrefs
 import com.coolspirat.zinotan.databinding.FragmentWebViewBinding
@@ -18,30 +20,72 @@ class WebViewFragment : Fragment(R.layout.fragment_web_view) {
     private val binding by viewBinding(FragmentWebViewBinding::bind)
     private val prefs by lazy { LinkPrefs(requireContext()) }
 
+    private var webView: WebView? = null
+    private var webState: Bundle? = null
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupWebView()
+        setupNextButton()
+    }
 
-        CookieManager.getInstance().setAcceptCookie(true)
+    private fun setupWebView() {
+        webView = binding.web
 
-        binding.web.settings.apply {
-            javaScriptEnabled = true
-            domStorageEnabled = true
-            mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+        webView?.apply {
+            settings.apply {
+                javaScriptEnabled = true
+                domStorageEnabled = true
+                mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+            }
+
+            val cm = CookieManager.getInstance().apply {
+                setAcceptCookie(true)
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                cm.setAcceptThirdPartyCookies(this@WebViewFragment.webView!!, true)
+                cm.flush()
+            }
+
+            webViewClient = object : WebViewClient() {
+                override fun shouldOverrideUrlLoading(
+                    view: WebView, request: WebResourceRequest
+                ) = false
+            }
+
+            if (webState != null) {
+                restoreState(webState!!)
+            } else {
+                loadUrl(prefs.saved().orEmpty())
+            }
         }
+    }
 
-        binding.web.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(
-                view: WebView, request: WebResourceRequest
-            ) = false
+    private fun setupNextButton() {
+        binding.btnNext.setOnClickListener {
+            findNavController().navigate(
+                WebViewFragmentDirections.actionWebViewToFirstFragment()
+            )
         }
+    }
 
-        val urlToLoad = prefs.saved().orEmpty()
-        binding.web.loadUrl(urlToLoad)
+    override fun onPause() {
+        super.onPause()
+        webView?.let { wv ->
+            webState = Bundle().also { wv.saveState(it) }
+        }
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
-        binding.web.destroy()
-    }
+        webView?.apply {
+            stopLoading()
+            loadUrl("about:blank")
+            clearHistory()
+            destroy()
+        }
+        webView = null
+        webState = null
 
+        super.onDestroyView()
+    }
 }
