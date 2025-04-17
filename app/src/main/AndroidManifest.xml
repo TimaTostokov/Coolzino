@@ -7,20 +7,22 @@
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
+        android:exported="true"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/logotype"
         android:label="@string/app_name"
+        android:resizeableActivity="true"
         android:roundIcon="@drawable/logotype"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/Theme.Coolzino"
-        android:resizeableActivity="true"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
         <activity
             android:name=".presentation.activity.MainActivity"
-            android:theme="@style/Theme.Coolzino"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.Coolzino">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

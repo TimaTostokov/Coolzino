@@ -1,5 +1,6 @@
 package com.coolspirat.zinotan.presentation.fragment.webview
 
+import android.content.pm.ActivityInfo
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -23,10 +24,24 @@ class WebViewFragment : Fragment(R.layout.fragment_web_view) {
     private var webView: WebView? = null
     private var webState: Bundle? = null
 
+    override fun onResume() {
+        super.onResume()
+        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
+    }
+
+    override fun onStop() {
+        super.onStop()
+        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupWebView()
-        setupNextButton()
+        binding.btnNext.setOnClickListener {
+            findNavController().navigate(
+                WebViewFragmentDirections.actionWebViewToFirstFragment()
+            )
+        }
     }
 
     private fun setupWebView() {
@@ -39,12 +54,12 @@ class WebViewFragment : Fragment(R.layout.fragment_web_view) {
                 mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
             }
 
-            val cm = CookieManager.getInstance().apply {
+            CookieManager.getInstance().apply {
                 setAcceptCookie(true)
-            }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                cm.setAcceptThirdPartyCookies(this@WebViewFragment.webView!!, true)
-                cm.flush()
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    setAcceptThirdPartyCookies(this@WebViewFragment.webView!!, true)
+                    flush()
+                }
             }
 
             webViewClient = object : WebViewClient() {
@@ -58,14 +73,6 @@ class WebViewFragment : Fragment(R.layout.fragment_web_view) {
             } else {
                 loadUrl(prefs.saved().orEmpty())
             }
-        }
-    }
-
-    private fun setupNextButton() {
-        binding.btnNext.setOnClickListener {
-            findNavController().navigate(
-                WebViewFragmentDirections.actionWebViewToFirstFragment()
-            )
         }
     }
 
@@ -85,7 +92,6 @@ class WebViewFragment : Fragment(R.layout.fragment_web_view) {
         }
         webView = null
         webState = null
-
         super.onDestroyView()
     }
 }

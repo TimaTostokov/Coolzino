@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 
 class LinkPrefs(ctx: Context) {
-
-    private val p = ctx.getSharedPreferences("link_prefs", Context.MODE_PRIVATE)
+    private val p: SharedPreferences =
+        ctx.getSharedPreferences("link_prefs", Context.MODE_PRIVATE)
 
     private companion object {
         const val KEY_LINK = "saved_link"
@@ -13,11 +13,7 @@ class LinkPrefs(ctx: Context) {
     }
 
     fun saved(): String? = p.getString(KEY_LINK, null)
-
-    fun save(link: String) {
-        if (link.isNotEmpty())
-            p.edit().putString(KEY_LINK, link).apply()
-    }
+    fun save(link: String) = p.edit().putString(KEY_LINK, link).apply()
 
     fun wasSeen(): Boolean = p.getBoolean(KEY_SEEN, false)
     fun markSeen() = p.edit().putBoolean(KEY_SEEN, true).apply()
