@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.SharedPreferences
 
 class LinkPrefs(ctx: Context) {
-
     private val p: SharedPreferences =
         ctx.getSharedPreferences("link_prefs", Context.MODE_PRIVATE)
 
@@ -14,7 +13,6 @@ class LinkPrefs(ctx: Context) {
     }
 
     fun saved(): String? = p.getString(KEY_LINK, null)
-
     fun save(link: String) = p.edit().putString(KEY_LINK, link).apply()
 
     fun wasSeen(): Boolean = p.getBoolean(KEY_SEEN, false)

@@ -18,7 +18,7 @@ class TwoFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         return binding.root
     }
@@ -26,7 +26,7 @@ class TwoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.btnLeft.setOnClickListener {
-            findNavController().popBackStack()
+            findNavController().navigate(R.id.action_twoFragment_to_threeFragment)
         }
         binding.btnRight.setOnClickListener {
             findNavController().navigate(R.id.action_twoFragment_to_threeFragment)
